@@ -14,8 +14,7 @@ var {
   View,
 } = React;
 
-var API_URL = 'http://zhuanlan.zhihu.com/api/columns/pinapps/posts';
-var REQUEST_URL = API_URL;
+var REQUEST_URL = 'http://zhuanlan.zhihu.com/api/columns/pinapps/posts?limit=10&offset=';
 
 var AwesomeProject = React.createClass({
   getInitialState: function() {
@@ -23,21 +22,26 @@ var AwesomeProject = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      responseData: [],
       loaded: false,
+      pageOffset: 0, 
     };
   },
 
   componentDidMount: function() {
-    this.fetchData(REQUEST_URL);
+    this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
   },
 
   fetchData: function(url) {
     fetch(url)
       .then((response) => response.json())
       .then((responseData) => {
+        var data = this.state.responseData.concat(responseData);
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData),
+          dataSource: this.state.dataSource.cloneWithRows(data),
           loaded: true,
+          responseData: data,
+          pageOffset: ++this.state.pageOffset,
         });
       })
       .done();
@@ -54,6 +58,7 @@ var AwesomeProject = React.createClass({
         renderHeader={this.renderZhihuHeader}
         onEndReached={this.endReached}
         renderRow={this.renderMovie}
+        onEndReachedThreshold={30}
         style={styles.listView}
       />
     );
@@ -69,9 +74,8 @@ var AwesomeProject = React.createClass({
     );
   },
 
-
   endReached: function() {
-      this.fetchData('http://zhuanlan.zhihu.com/api/columns/pinapps/posts?limit=10&offset=10');
+    this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
   },
 
   renderZhihuHeader: function() {

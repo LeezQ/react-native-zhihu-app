@@ -12,20 +12,24 @@
 	<dict>
 		<key>5E55C16697EF7C1EE73888F76A25B42A68D43437</key>
 		<string>github.com:Mogujie-F2E/mogu-lotus-proxy.git</string>
+		<key>D1CAC3560110F78AE435EECB6E7C718B17BD1929</key>
+		<string>github.com:LeezQ/react-native-zhihu-app.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>AwesomeProject/AwesomeProject.xcodeproj</string>
+	<string>AwesomeProject.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>5E55C16697EF7C1EE73888F76A25B42A68D43437</key>
 		<string>../../..</string>
+		<key>D1CAC3560110F78AE435EECB6E7C718B17BD1929</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>github.com:Mogujie-F2E/mogu-lotus-proxy.git</string>
+	<string>github.com:LeezQ/react-native-zhihu-app.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>5E55C16697EF7C1EE73888F76A25B42A68D43437</string>
+	<string>D1CAC3560110F78AE435EECB6E7C718B17BD1929</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -34,7 +38,15 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>5E55C16697EF7C1EE73888F76A25B42A68D43437</string>
 			<key>IDESourceControlWCCName</key>
-			<string>GitDir</string>
+			<string></string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D1CAC3560110F78AE435EECB6E7C718B17BD1929</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AwesomeProject</string>
 		</dict>
 	</array>
 </dict>
