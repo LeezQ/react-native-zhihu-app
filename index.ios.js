@@ -12,96 +12,23 @@ var {
   StyleSheet,
   Text,
   View,
+  NavigatorIOS,
 } = React;
 
-var REQUEST_URL = 'http://zhuanlan.zhihu.com/api/columns/pinapps/posts?limit=10&offset=';
+var PostsView = require('./App/Views/Posts');
 
 var AwesomeProject = React.createClass({
-  getInitialState: function() {
-    return {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-      responseData: [],
-      loaded: false,
-      pageOffset: 0, 
-    };
-  },
-
-  componentDidMount: function() {
-    this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
-  },
-
-  fetchData: function(url) {
-    fetch(url)
-      .then((response) => response.json())
-      .then((responseData) => {
-        var data = this.state.responseData.concat(responseData);
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(data),
-          loaded: true,
-          responseData: data,
-          pageOffset: ++this.state.pageOffset,
-        });
-      })
-      .done();
-  },
-
-  render: function() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
-    }
-
-    return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderHeader={this.renderZhihuHeader}
-        onEndReached={this.endReached}
-        renderRow={this.renderMovie}
-        onEndReachedThreshold={30}
-        style={styles.listView}
-      />
-    );
-  },
-
-  renderLoadingView: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>
-          加载知乎中...
-        </Text>
-      </View>
-    );
-  },
-
-  endReached: function() {
-    this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
-  },
-
-  renderZhihuHeader: function() {
-    return(
-      <View style={styles.container}>
-          <Text style={styles.infoTitle}>
-            知乎专栏
-          </Text>
-      </View>
-    );
-  },
-
-  renderMovie: function(movie) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{uri: movie.titleImage}}
-          style={styles.thumbnail}
-        />
-        <View style={styles.rightContainer}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Text style={styles.year}>{movie.publishedTime}</Text>
-        </View>
-      </View>
-    );
-  },
+    render: function() {
+        return (
+          <NavigatorIOS
+            style={styles.container}
+            tintColor='#FF6600'
+            initialRoute={{
+              title: '知乎专栏',
+              component: PostsView,
+            }}/>
+        );
+      }
 });
 
 var styles = StyleSheet.create({
