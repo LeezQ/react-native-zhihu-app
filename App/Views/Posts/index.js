@@ -53,6 +53,7 @@ var Posts = React.createClass({
       <ListView
         dataSource={this.state.dataSource}
         onEndReached={this.endReached}
+        pageSize={10}
         renderRow={this.renderMovie}
         onEndReachedThreshold={30}
         style={styles.listView}
