@@ -32,44 +32,11 @@ var AwesomeProject = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  infoTitle: {
-    textAlign: 'center',
-    fontSize: 18,
-    marginTop: 10,
-    marginBottom: 10,
-  },
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#ffffff',
   },
-  rightContainer: {
-    flex: 1,
-    padding: 5,
-    marginBottom: 15,
-  },
-  title: {
-    fontSize: 16,
-    marginBottom: 3,
-    textAlign: 'left',
-  },
-  year: {
-    fontSize: 12,
-    color: '#999999',
-  },
-  thumbnail: {
-    flex: 1,
-    height: 200,
-  },
-  listView: {
-    paddingTop: 20,
-  },
-
-  loadingText: {
-    marginTop: 100,
-    textAlign: 'center',
-    flex: 1,
-  }
 });
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);

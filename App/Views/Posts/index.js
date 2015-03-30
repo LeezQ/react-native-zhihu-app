@@ -23,6 +23,7 @@ var Posts = React.createClass({
       responseData: [],
       loaded: false,
       pageOffset: 0, 
+      loading: false,
     };
   },
 
@@ -40,6 +41,7 @@ var Posts = React.createClass({
           loaded: true,
           responseData: data,
           pageOffset: ++this.state.pageOffset,
+          loading: false,
         });
       })
       .done();
@@ -76,6 +78,9 @@ var Posts = React.createClass({
   },
 
   loadMore: function() {
+    this.setState({
+        loading: true 
+    });
     this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
   },
 
@@ -96,8 +101,19 @@ var Posts = React.createClass({
             underlayColor='#FFFFFF'>
             <View style={styles.containerFooter}>
               <Text style={styles.loadeMoreBtn}>
-                点击加载更多...
+                点击加载...
               </Text>
+              {this.state.loading ? 
+                <Image
+                source={{uri: 'http://s6.mogucdn.com/pic/140813/kuw9n_ieyggojrmi4dknlbmiytambqgiyde_26x26.gif'}}
+                style={{width:26, height:26, flex: 1, marginLeft: -80}}
+              />
+                : <Image
+                source={{uri: ''}}
+                style={{width:26, height:26, flex: 1, marginLeft: -80}}
+              />
+            }
+              
             </View>
           </TouchableHighlight>
         )
@@ -161,16 +177,18 @@ var styles = StyleSheet.create({
 
   containerFooter: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'row',
     paddingTop: 10,
     paddingBottom: 10,
+    justifyContent:'center',
   },
 
   loadeMoreBtn: {
-    textAlign: 'center',
+    textAlign: 'right',
     flex: 1,
     color: '#f34943',
     fontSize: 14,
+    marginTop: 5,
   },
 });
 
