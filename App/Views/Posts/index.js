@@ -9,6 +9,7 @@ var {
   StyleSheet,
   Text,
   View,
+  TouchableHighlight,
 } = React;
 
 var REQUEST_URL = 'http://zhuanlan.zhihu.com/api/columns/pinapps/posts?limit=10&offset=';
@@ -52,11 +53,10 @@ var Posts = React.createClass({
     return (
       <ListView
         dataSource={this.state.dataSource}
-        onEndReached={this.endReached}
         pageSize={10}
         renderRow={this.renderMovie}
-        onEndReachedThreshold={30}
         style={styles.listView}
+        renderFooter={this.renderFooter}
       />
     );
   },
@@ -75,6 +75,10 @@ var Posts = React.createClass({
     this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
   },
 
+  loadMore: function() {
+    this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
+  },
+
   renderZhihuHeader: function() {
     return(
       <View style={styles.container}>
@@ -83,6 +87,20 @@ var Posts = React.createClass({
           </Text>
       </View>
     );
+  },
+
+  renderFooter: function() {
+    return (
+          <TouchableHighlight 
+            onPress={this.loadMore}
+            underlayColor='#FFFFFF'>
+            <View style={styles.containerFooter}>
+              <Text style={styles.loadeMoreBtn}>
+                点击加载更多...
+              </Text>
+            </View>
+          </TouchableHighlight>
+        )
   },
 
   renderMovie: function(movie) {
@@ -139,7 +157,21 @@ var styles = StyleSheet.create({
     marginTop: 100,
     textAlign: 'center',
     flex: 1,
-  }
+  },
+
+  containerFooter: {
+    flex: 1,
+    flexDirection: 'column',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+
+  loadeMoreBtn: {
+    textAlign: 'center',
+    flex: 1,
+    color: '#f34943',
+    fontSize: 14,
+  },
 });
 
 module.exports = Posts;
