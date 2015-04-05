@@ -3,38 +3,51 @@
 var React = require('react-native');
 
 var {
-  AppRegistry,
   Image,
   ListView,
   StyleSheet,
   Text,
   View,
   TouchableHighlight,
-} = React;
+  } = React;
 
 var REQUEST_URL = 'http://zhuanlan.zhihu.com/api/columns/pinapps/posts?limit=10&offset=';
 
+
+var PostCellView = require('./PostCellView');
+var PostDetailView = require('../PostDetail/PostDetailView');
+
 var Posts = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       responseData: [],
       loaded: false,
-      pageOffset: 0, 
+      pageOffset: 0,
       loading: false,
     };
   },
 
-  componentDidMount: function() {
+  /**
+   * component 渲染后加载数据
+   */
+  componentDidMount: function () {
     this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
   },
 
-  fetchData: function(url) {
+
+  /**
+   * 加载数据
+   * @param url
+   */
+  fetchData: function (url) {
     fetch(url)
-      .then((response) => response.json())
-      .then((responseData) => {
+      .then(function(response) {
+        return response.json()
+      })
+      .then(function(responseData) {
         var data = this.state.responseData.concat(responseData);
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(data),
@@ -43,11 +56,15 @@ var Posts = React.createClass({
           pageOffset: ++this.state.pageOffset,
           loading: false,
         });
-      })
+      }.bind(this))
       .done();
   },
 
-  render: function() {
+  /**
+   * 渲染方法
+   * @returns {XML}
+   */
+  render: function () {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
@@ -56,14 +73,18 @@ var Posts = React.createClass({
       <ListView
         dataSource={this.state.dataSource}
         pageSize={10}
-        renderRow={this.renderMovie}
+        renderRow={this.renderList}
         style={styles.listView}
         renderFooter={this.renderFooter}
       />
     );
   },
 
-  renderLoadingView: function() {
+  /**
+   * 页面进来的时候加载 loading
+   * @returns {XML}
+   */
+  renderLoadingView: function () {
     return (
       <View style={styles.container}>
         <Text style={styles.loadingText}>
@@ -73,100 +94,87 @@ var Posts = React.createClass({
     );
   },
 
-  endReached: function() {
+  /**
+   * 滚动到底部的时候加载更多
+   */
+  endReached: function () {
     this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
   },
 
-  loadMore: function() {
+  /**
+   * 加载更多
+   */
+  loadMore: function () {
     this.setState({
-        loading: true 
+      loading: true
     });
     this.fetchData(REQUEST_URL + this.state.pageOffset * 10);
   },
 
-  renderZhihuHeader: function() {
-    return(
-      <View style={styles.container}>
-          <Text style={styles.infoTitle}>
-            知乎专栏
-          </Text>
-      </View>
-    );
-  },
-
-  renderFooter: function() {
+  /**
+   * 底部视图
+   * @returns {XML}
+   */
+  renderFooter: function () {
     return (
-          <TouchableHighlight 
-            onPress={this.loadMore}
-            underlayColor='#FFFFFF'>
-            <View style={styles.containerFooter}>
-              <Text style={styles.loadeMoreBtn}>
-                点击加载...
-              </Text>
-              {this.state.loading ? 
+      <TouchableHighlight
+        onPress={this.loadMore}
+        underlayColor='#FFFFFF'>
+        <View style={styles.containerFooter}>
+          <Text style={styles.loadeMoreBtn}>
+            点击加载更多...
+          </Text>
+              {this.state.loading ?
                 <Image
-                source={{uri: 'http://s6.mogucdn.com/pic/140813/kuw9n_ieyggojrmi4dknlbmiytambqgiyde_26x26.gif'}}
-                style={{width:26, height:26, flex: 1, marginLeft: -80}}
-              />
+                  source={{uri: 'http://s6.mogucdn.com/pic/140813/kuw9n_ieyggojrmi4dknlbmiytambqgiyde_26x26.gif'}}
+                  style={{width: 26, height: 26, flex: 1, marginLeft: -80}}
+                />
                 : <Image
                 source={{uri: ''}}
-                style={{width:26, height:26, flex: 1, marginLeft: -80}}
+                style={{width: 26, height: 26, flex: 1, marginLeft: -80}}
               />
-            }
-              
-            </View>
-          </TouchableHighlight>
-        )
+                }
+        </View>
+      </TouchableHighlight>
+    )
   },
 
-  renderMovie: function(movie) {
+  /**
+   * 开始加载列表
+   * @param post
+   * @returns {XML}
+   */
+  renderList: function (post) {
     return (
-      <View style={styles.container}>
-        <Image
-          source={{uri: movie.titleImage}}
-          style={styles.thumbnail}
-        />
-        <View style={styles.rightContainer}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Text style={styles.year}>{movie.publishedTime}</Text>
-        </View>
-      </View>
+      <PostCellView
+        onSelect={ () => this.renderDetail(post)}
+        post={post}
+      />
     );
   },
+
+  /**
+   * 点击跳转到 post 详情页
+   * @param post
+   */
+  renderDetail: function(post){
+    this.props.navigator.push({
+      title: post.title,
+      component: PostDetailView,
+      passProps: {slug: post.slug}
+    })
+  }
 });
 
 var styles = StyleSheet.create({
-  infoTitle: {
-    textAlign: 'center',
-    fontSize: 18,
-    marginTop: 10,
-    marginBottom: 10,
-  },
+
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#ffffff',
   },
-  rightContainer: {
-    flex: 1,
-    padding: 5,
-    marginBottom: 15,
-  },
-  title: {
-    fontSize: 16,
-    marginBottom: 3,
-    textAlign: 'left',
-  },
-  year: {
-    fontSize: 12,
-    color: '#999999',
-  },
-  thumbnail: {
-    flex: 1,
-    height: 200,
-  },
   listView: {
-    paddingTop: 20,
+    paddingBottom: 20,
   },
 
   loadingText: {
@@ -180,7 +188,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 10,
     paddingBottom: 10,
-    justifyContent:'center',
+    justifyContent: 'center',
   },
 
   loadeMoreBtn: {

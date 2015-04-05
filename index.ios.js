@@ -13,22 +13,22 @@ var {
   Text,
   View,
   NavigatorIOS,
-} = React;
+  } = React;
 
 var PostsView = require('./App/Views/Posts');
 
 var AwesomeProject = React.createClass({
-    render: function() {
-        return (
-          <NavigatorIOS
-            style={styles.container}
-            tintColor='#FF6600'
-            initialRoute={{
-              title: '知乎专栏',
-              component: PostsView,
-            }}/>
-        );
-      }
+  render: function () {
+    return (
+      <NavigatorIOS
+        style={styles.container}
+        tintColor='#FF6600'
+        initialRoute={{
+          title: '知乎专栏',
+          component: PostsView,
+        }}/>
+    );
+  }
 });
 
 var styles = StyleSheet.create({
