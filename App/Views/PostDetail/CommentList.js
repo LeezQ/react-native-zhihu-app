@@ -41,7 +41,7 @@ var CommentList = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
-        pageSize={10}
+        pageSize={this.state.replyCount}
       />
     )
   },
@@ -56,12 +56,10 @@ var CommentList = React.createClass({
 
         <View style={styles.commentUser}>
           <Text style={styles.commentUserName}>{comment.author.name}</Text>
-          <Text>{comment.content}</Text>
+          <Text numberOfLines={3}> {comment.content}</Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.createTime}> {comment.createdTime}  </Text>
-            <TouchableHighlight onPress={() => this.addFav(comment.id)}>
-              <Text>赞</Text>
-            </TouchableHighlight>
+              <Text onPress={() => this.addFav(comment.id)}>赞</Text>
           </View>
 
         </View>
@@ -105,11 +103,13 @@ var styles = StyleSheet.create({
   commentUser: {
     flexDirection: 'column',
     paddingLeft: 5,
+    flex: 1,
   },
   createTime: {
     color: '#9d9e9f',
   },
   commentUserName: {
+    marginBottom: 5,
     color: '#225d99',
   }
 
