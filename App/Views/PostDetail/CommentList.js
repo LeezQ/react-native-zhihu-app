@@ -16,7 +16,8 @@ var CommentList = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      isLoading: true
+      isLoading: true,
+      replyCount: 0,
     }
   },
 
@@ -34,14 +35,13 @@ var CommentList = React.createClass({
   },
 
   render: function() {
-    console.log(this.state.replyCount);
     return (
       <ListView
+        automaticallyAdjustContentInsets={false}
         style={styles.commentList}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
-        pageSize={this.state.replyCount}
       />
     )
   },
@@ -59,7 +59,7 @@ var CommentList = React.createClass({
           <Text numberOfLines={3}> {comment.content}</Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.createTime}> {comment.createdTime}  </Text>
-              <Text onPress={() => this.addFav(comment.id)}>赞</Text>
+            <Text onPress={() => this.addFav(comment.id)}>赞</Text>
           </View>
 
         </View>
@@ -68,9 +68,19 @@ var CommentList = React.createClass({
   },
 
   renderHeader: function() {
-    return (
-      <Text >{this.state.replyCount}条评论</Text>
-    )
+    //var replyCount = this.state.replyCount ? this.state.replyCount: 0;
+    //return (
+    //  <Text>{replyCount} comments</Text>
+    //);
+
+    if (this.state.replyCount) {
+      return (
+        <Text>{this.state.replyCount} comments</Text>
+      )
+    } else {
+      return null;
+    }
+
   },
 
   addFav: function (commentId) {
