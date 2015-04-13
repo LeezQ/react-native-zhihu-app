@@ -11,6 +11,9 @@ var {
   TouchableHighlight,
   } = React;
 
+var Dimensions = require('Dimensions')
+var screenWidth = Dimensions.get('window').width
+
 var REQUEST_URL = 'http://zhuanlan.zhihu.com/api/columns/pinapps/posts?limit=10&offset=';
 
 
@@ -175,6 +178,7 @@ var styles = StyleSheet.create({
   },
   listView: {
     paddingBottom: 20,
+    width: screenWidth,
   },
 
   loadingText: {

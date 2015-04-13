@@ -8,9 +8,11 @@ var {
   View,
   TouchableHighlight,
   ScrollView,
+  WebView,
   } = React;
 
 var CommentList = require('./CommentList');
+var ParseHTML = require('../../Utils/htmlparse.js');
 
 var PostDetailView = React.createClass({
   getInitialState: function() {
@@ -54,14 +56,10 @@ var PostDetailView = React.createClass({
           <Text style={styles.title}>{data.title}</Text>
 
           <View style={styles.authorInfo}>
-            <Image
-              source={{uri: data.author.avatar.template.replace('\{id\}', data.author.avatar.id).replace('{size}', 'xs')}}
-              style={styles.avatar}
-            />
             <Text style={styles.author}> {data.author.name} · {data.publishedTime} </Text>
           </View>
 
-          <Text style={styles.content}>{data.content}</Text>
+          <ParseHTML code={data.content} />
         </View>
 
         <CommentList postid={this.props.slug}/>
