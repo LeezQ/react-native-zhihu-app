@@ -68,10 +68,6 @@ var CommentList = React.createClass({
   },
 
   renderHeader: function() {
-    //var replyCount = this.state.replyCount ? this.state.replyCount: 0;
-    //return (
-    //  <Text>{replyCount} comments</Text>
-    //);
 
     if (this.state.replyCount) {
       return (

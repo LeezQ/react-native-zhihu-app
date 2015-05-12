@@ -14,6 +14,10 @@ var {
 var CommentList = require('./CommentList');
 var ParseHTML = require('../../Utils/htmlparse.js');
 
+
+var HTMLView = require('react-native-htmlview')
+
+
 var PostDetailView = React.createClass({
   getInitialState: function() {
     return {
@@ -45,6 +49,7 @@ var PostDetailView = React.createClass({
     }
 
     var data = this.state.resData;
+
     return (
       <ScrollView style={styles.container}>
         <Image
@@ -59,7 +64,12 @@ var PostDetailView = React.createClass({
             <Text style={styles.author}> {data.author.name} · {data.publishedTime} </Text>
           </View>
 
-          <ParseHTML code={data.content} />
+          <HTMLView
+            value={data.content}
+            onLinkPress={(url) => console.log('navigating to: ', url)}
+            stylesheet={htmlVeiwStyles}
+          />
+
         </View>
 
         <CommentList postid={this.props.slug}/>
@@ -110,5 +120,12 @@ var styles = StyleSheet.create({
   }
 
 });
+
+var htmlVeiwStyles = StyleSheet.create({
+  a: {
+    fontWeight: '300',
+    color: '#FF3366', // pink links
+  },
+})
 
 module.exports = PostDetailView;

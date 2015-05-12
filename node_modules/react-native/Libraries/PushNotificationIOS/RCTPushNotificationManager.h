@@ -9,11 +9,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "../../React/Base/RCTBridgeModule.h"
+#import "RCTBridgeModule.h"
 
 @interface RCTPushNotificationManager : NSObject <RCTBridgeModule>
-
-- (instancetype)initWithInitialNotification:(NSDictionary *)initialNotification NS_DESIGNATED_INITIALIZER;
 
 + (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
 + (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification;

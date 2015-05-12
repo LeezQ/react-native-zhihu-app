@@ -53,13 +53,23 @@ class XMLHttpRequestBase {
   }
 
   getAllResponseHeaders(): ?string {
-    /* Stub */
-    return '';
+    if (this.responseHeaders) {
+      var headers = [];
+      for (var headerName in this.responseHeaders) {
+        headers.push(headerName + ': ' + this.responseHeaders[headerName]);
+      }
+      return headers.join('\n');
+    }
+    // according to the spec, return null <==> no response has been received
+    return null;
   }
 
   getResponseHeader(header: string): ?string {
-    /* Stub */
-    return '';
+    if (this.responseHeaders) {
+      var value = this.responseHeaders[header.toLowerCase()];
+      return value !== undefined ? value : null;
+    }
+    return null;
   }
 
   setRequestHeader(header: string, value: any): void {
@@ -122,7 +132,12 @@ class XMLHttpRequestBase {
       return;
     }
     this.status = status;
-    this.responseHeaders = responseHeaders;
+    // Headers should be case-insensitive
+    var lcResponseHeaders = {};
+    for (var header in responseHeaders) {
+      lcResponseHeaders[header.toLowerCase()] = responseHeaders[header];
+    }
+    this.responseHeaders = lcResponseHeaders;
     this.responseText = responseText;
     this._setReadyState(this.DONE);
     this._sendLoad();

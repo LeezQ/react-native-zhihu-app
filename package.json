@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
   },
-  "dependencies": {
-    "react-native": "^0.3.1"
+  "dependencies": {},
+  "devDependencies": {
+    "react-native": "^0.4.2",
+    "react-native-htmlview": "^0.1.2"
   }
 }
