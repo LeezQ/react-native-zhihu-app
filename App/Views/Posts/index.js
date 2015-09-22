@@ -121,22 +121,20 @@ var Posts = React.createClass({
         onPress={this.loadMore}
         underlayColor='#FFFFFF'>
         <View style={styles.containerFooter}>
-          <Text style={styles.loadeMoreBtn}>
-            点击加载更多...
-          </Text>
               {this.state.loading ?
                 <Image
                   source={{uri: 'http://s6.mogucdn.com/pic/140813/kuw9n_ieyggojrmi4dknlbmiytambqgiyde_26x26.gif'}}
                   style={{width: 26, height: 26, flex: 1, marginLeft: -80}}
                 />
-                : <Image
-                source={{uri: ''}}
-                style={{width: 26, height: 26, flex: 1, marginLeft: -80}}
-              />
+                :
+                <Text style={styles.loadeMoreBtn}>
+                  点击加载更多...
+                </Text>
                 }
         </View>
       </TouchableHighlight>
     )
+
   },
 
   /**
@@ -192,7 +190,7 @@ var styles = StyleSheet.create({
   },
 
   loadeMoreBtn: {
-    textAlign: 'right',
+    textAlign: 'center',
     flex: 1,
     color: '#f34943',
     fontSize: 14,
